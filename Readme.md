@@ -27,14 +27,14 @@ COSOMOS dataset consist of three splits : Training (160 K images), Validation (4
   </tr>
   <tr>
     <td align='center'>Train</td>
-    <td align='center'>161,781</td>
-    <td align='center'>360,810</td>
+    <td align='center'>161,752</td>
+    <td align='center'>360,749</td>
     <td align='center'> No </td>
   </tr>
   <tr>
     <td align='center'>Valid</td>
-    <td align='center'>41,009</td>
-    <td align='center'>90,039</td>
+    <td align='center'>41,006</td>
+    <td align='center'>90,036</td>
     <td align='center'>No</td>
 
   </tr>
