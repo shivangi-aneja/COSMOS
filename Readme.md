@@ -81,12 +81,12 @@ File Structure for train.json and val.json
 
 | Key   | Description                                                                      |
 | -------- | ------------------------------------------------------------------------------|
-| `img_local_path`    | Source path in dataset directory for the image.                    | 
+| `img_local_path`    | Source path in dataset directory for the image                    | 
 | `articles`          | List of dict containing metadata for every caption associated with the image                  |
 | `caption`           | Original Caption scraped from the news website                          |
 | `article_url`       | Link to the website image and caption scraped from                           |
-| `caption_modified`  | Modified caption after applying Spacy NER (We used these caption as input to our model during experiments).                           |
-| `entity_list`       | List that consists of mapping between modified named entities in the caption with the corresponding hypernym.                          |
+| `caption_modified`  | Modified caption after applying Spacy NER (We used these caption as input to our model during experiments)                           |
+| `entity_list`       | List that consists of mapping between modified named entities in the caption with the corresponding hypernym                          |
 | `maskrcnn_bboxes`          | List of detected bounding boxes corresponding to the image. (x1,y1) refers to start vertex of the rectangle and (x2, y2) refers to end vertex of the rectangle                   |
 
 </br>
@@ -100,7 +100,11 @@ File Structure for test.json
 ```
 {	"img_local_path": <img_path>, 
 	"caption1": <caption1>,
+    "caption1_modified": <caption1_modified>,
+    "caption1_entities": <caption1_entities>,
 	"caption2": <caption2>,
+    "caption2_modified": <caption2_modified>,
+    "caption2_entities": <caption2_entities>,
     "article_url": <article_url>,
 	"label": "ooc/not-ooc",
     "maskrcnn_bboxes": [ [x1,y1,x2,y2], [x1,y1,x2,y2], ... ]
@@ -110,11 +114,13 @@ File Structure for test.json
 
 | Key   | Description                                                                      |
 | -------- | ------------------------------------------------------------------------------|
-| `img_local_path`    | Source path in dataset directory for the image.                    | 
+| `img_local_path`    | Source path in dataset directory for the image                    | 
 | `caption1`          | First caption associated with the image                 |
 | `caption1_modified`          | Modified Caption1  after applying Spacy NER                 |
+| `caption1_entities`          | List that consists of mapping between modified named entities in the caption1 with the corresponding hypernym                 |
 | `caption2`           | Second caption associated with the image                       |
 | `caption2_modified`           | Modified Caption2  after applying Spacy NER                        |
+| `caption2_entities`          | List that consists of mapping between modified named entities in the caption2 with the corresponding hypernym                 |
 | `article_url`       | Link to the website image and caption scraped from                           |
 | `label`  | Class label whether the two captions are out-of-context with respect to the image (1=Out-of-Context, 0=Not-Out-of-Context )                         |
 | `maskrcnn_bboxes`          | List of detected bounding boxes corresponding to the image. (x1,y1) refers to start vertex of the rectangle and (x2, y2) refers to end vertex of the rectangle                  |
