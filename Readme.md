@@ -98,16 +98,17 @@ Note that for detecting bounding boxes, we used [Detectron2 pretrained model](ht
 
 File Structure for test.json
 ```
-{	"img_local_path": <img_path>, 
+{	
+        "img_local_path": <img_path>,
 	"caption1": <caption1>,
-  "caption1_modified": <caption1_modified>,
-  "caption1_entities": <caption1_entities>,
+	"caption1_modified": <caption1_modified>,
+	"caption1_entities": <caption1_entities>,
 	"caption2": <caption2>,
-  "caption2_modified": <caption2_modified>,
-  "caption2_entities": <caption2_entities>,
-  "article_url": <article_url>,
+	"caption2_modified": <caption2_modified>,
+	"caption2_entities": <caption2_entities>,
+	"article_url": <article_url>,
 	"label": "ooc/not-ooc",
-  "maskrcnn_bboxes": [ [x1,y1,x2,y2], [x1,y1,x2,y2], ... ]
+	"maskrcnn_bboxes": [ [x1,y1,x2,y2], [x1,y1,x2,y2], ... ]
 }
 ```
 <p align='center'>Table 3: Attributes in Test file.</p>
