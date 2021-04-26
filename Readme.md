@@ -13,7 +13,6 @@ COSMOS dataset consists of images and captions scraped from news articles and ot
 
 ## Dataset Description
 </br>
-
 ### Dataset Statistics
 COSOMOS dataset consist of three splits : Training (160 K images), Validation (40 K images) and Test (1700 images). For training, we do not have/use out-of-context annotations. We only use these annotations in the end to evaluate our model. The dataset stats are listed below.
 
@@ -117,7 +116,7 @@ File Structure for test.json
 | `caption2`           | Second caption associated with the image                       |
 | `caption2_modified`           | Modified Caption2  after applying Spacy NER                        |
 | `article_url`       | Link to the website image and caption scraped from                           |
-| `label`  | Class label whether the two captions are out-of-context with respect to the image (0=Out-of-Context, 1=Not-Out-of-Context )                         |
+| `label`  | Class label whether the two captions are out-of-context with respect to the image (1=Out-of-Context, 0=Not-Out-of-Context )                         |
 | `maskrcnn_bboxes`          | List of detected bounding boxes corresponding to the image. (x1,y1) refers to start vertex of the rectangle and (x2, y2) refers to end vertex of the rectangle                  |
 
 </br>
