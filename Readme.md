@@ -14,7 +14,7 @@ COSMOS dataset consists of images and captions scraped from news articles and ot
 ## Dataset Description
 
 ### Dataset Statistics
-COSOMOS dataset consist of three splits : Training (160 K images), Validation (40 K images) and Test (1700 images). For training, we do not have/use out-of-context annotations. We only use these annotations in the end to evaluate our model. The dataset stats are listed below.
+COSMOS dataset consist of three splits : Training (160 K images), Validation (40 K images) and Test (1700 images). For training, we do not have/use out-of-context annotations. We only use these annotations in the end to evaluate our model. The dataset stats are listed below.
 
 <p align='center'>Table 1: Dataset stats.</p>
 <table align='center'>
@@ -138,7 +138,7 @@ File Structure for test.json
 
 ## Citation
 
-**If you use find our dataset or paper useful for your research , please include the following citation:**
+**If you find our dataset or paper useful for your research , please include the following citation:**
 
 ```
 @misc{aneja2021cosmos,
