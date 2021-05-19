@@ -25,6 +25,5 @@ recommonmark==0.7.1
 scikit_learn==0.24.2
 scikit-image
 wordcloud==1.8.1
-opencv-python==4.2.0.34
 mysql-connector-python==8.0.21
 Flask==1.1.2
