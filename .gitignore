@@ -1,3 +1,12 @@
-download_dataset.sh
+dataset_scripts/
+models/*
+data/*
+tf_logs/*
 .idea/
 venv/
+docs/build/*
+*.pyc
+__pycache__
+dataset_visualizer/static/train/*
+dataset_visualizer/static/val/*
+dataset_visualizer/static/test/*

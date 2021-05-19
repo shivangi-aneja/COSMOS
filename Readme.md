@@ -1,6 +1,6 @@
 ## [COSMOS: Catching Out-of-Context Misinformation using Self-Supervised Learning](https://shivangi-aneja.github.io/projects/cosmos/)
 
-COSMOS dataset consists of images and captions scraped from news articles and other websites designed for training and evaluation of out-of-context use of images. We refer readers to the [paper](https://arxiv.org/abs/2101.06278) for more details. To get access to the dataset, please fill out [this form](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). We will provide you script to download the dataset.
+COSMOS dataset consists of images and captions scraped from news articles and other websites designed for training and evaluation of out-of-context use of images. We refer readers to the [paper](https://arxiv.org/abs/2101.06278) for more details. To get access to the dataset, please fill out [this form](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). We will provide you script to download the dataset. The official documentation for the project can be found [here]()
 
 
 <p float="left">
@@ -130,9 +130,23 @@ File Structure for test.json
 
 
 ## Getting started
-1. **Source Code:**   `$ git clone` this repo and install the Python dependencies from `requirements.txt`
-2. **Dataset** Download the dataset by filling out the form [here](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). 
-3. **Train and Test** Coming Soon
+The code is well-documented and should be easy to follow.
+1. **Source Code:**   `$ git clone` this repo and install the Python dependencies from `requirements.txt`. The source code is implemented in PyTorch so familarity with PyTorch is expected.
+
+2. **Dataset:** Download the dataset by filling out the form [here](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). 
+3. **Visualize Dataset:** It is difficult to view the dataset using only JSON file. Navigate to the directory `dataset_visualizer` and follow the instructions to visualize the dataset using a simple Python-Flask based web tool 
+4. **Train and Test For Image-Text Matching Task:** This code is based on [Detectron2](https://github.com/facebookresearch/detectron2) to extract features from objects present in the image. Please setup and install detectron2 first if you wish to use our feature detector for images. The minimal changes to be done to detectron2 source code to extract object features are added to [detectron2_changes](detectron2_changes/) directory. Navigate to detectron2 source code directory and simply copy and replace these files. Consider setting up detectron2 inside this directory, it worked seamlessly for me without doing many changes.                                 
+All the training parameters are configured via `utils/config.py`. Specify paths, hyperparameters, text-embeddings, threshold values, etc in the [config .py](utils/config.py) file. Model names are specifed in the trainer script itself. Configure these parameters according to your need and start training.     
+To train the model, execute the following command:
+`python trainer_scipt.py -m train`      
+Once training is finished, then to evaluate the model with Match vs No-Match Accuracy, execute the following command:
+`python trainer_scipt.py -m eval`
+5. **Test For Out-of-Context Detection Accuracy:**  Once training is over, then to evaluate the model for out-of-Context Detection task, specify model name in `evaluate_ooc.py` and execute:
+```
+    python evaluate_ooc.py
+```
+
+
 
 </br>
 
@@ -153,6 +167,6 @@ File Structure for test.json
 
 </br>
 
-## Contact Us
+ Contact Us
 
 If you have questions regarding the dataset or code, please email us at shivangi.aneja@tum.de. We will get back to you as soon as possible.
