@@ -19,7 +19,6 @@ docutils==0.15.2
 spacy==2.1.9
 opencv_python==4.4.0.42
 pycocotools==2.0.2
-caffe2==0.8.1
 cityscapesscripts==2.2.0
 dataclasses==0.8
 hydra==2.5
