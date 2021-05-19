@@ -1,5 +1,8 @@
 ## [COSMOS: Catching Out-of-Context Misinformation using Self-Supervised Learning](https://shivangi-aneja.github.io/projects/cosmos/)
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/shivangi-aneja/COSMOS/blob/main/LICENSE.md)
+[![Read the Docs](https://img.shields.io/readthedocs/cosmos-dataset.svg)](https://cosmos-dataset.readthedocs.io/en/latest/tutorials/info.html)
+
 COSMOS dataset consists of images and captions scraped from news articles and other websites designed for training and evaluation of out-of-context use of images. We refer readers to the [paper](https://arxiv.org/abs/2101.06278) for more details. To get access to the dataset, please fill out [this form](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). We will provide you script to download the dataset. The official documentation for the project can be found [here](https://cosmos-dataset.readthedocs.io/en/latest/tutorials/info.html)
 
 
