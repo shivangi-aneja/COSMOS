@@ -32,71 +32,71 @@ class CaptionInContext(Dataset):
         """
             Returns sample corresponding to the index `index`
         """
-        try:
-            img_data = self.data[index]
-            img_path = os.path.join(DATA_DIR, img_data['img_local_path'])
+        img_data = self.data[index]
+        img_path = os.path.join(DATA_DIR, img_data['img_local_path'])
 
-            # Predicted Mask R-CNN bounding boxes, we use top 10 boxes for our experiments
-            bboxes = img_data['maskrcnn_bboxes'][:10]
-            # We do not take into account the bounding box classes,
-            # but they need to passed later for extracting bbox features
-            bbox_class = [-1] * len(bboxes)
+        # Predicted Mask R-CNN bounding boxes, we use top 10 boxes for our experiments
+        bboxes = img_data['maskrcnn_bboxes'][:10]
+        # We do not take into account the bounding box classes,
+        # but they need to passed later for extracting bbox features
+        bbox_class = [-1] * len(bboxes)
 
-            img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
 
-            # During training, apply random flip, scale and rotate transformation
-            if self.mode == 'train':
+        # During training, apply random flip, scale and rotate transformation
+        if self.mode == 'train':
+            try:
                 img_aug, bboxes_aug = self.flip_rotate_transform(img, np.array(bboxes))
                 bboxes_aug = bboxes_aug.tolist()
                 bboxes = list(it.islice(it.cycle(bboxes_aug), num_boxes - 1))
                 img = img_aug
+            except:
+                pass
 
-            # Consider entire image as additional object for global context
-            img = self.transforms(img).permute(1, 2, 0)
-            img_shape = img.shape[:2]
-            bboxes.append([0, 0, img_shape[1], img_shape[0]])
-            bbox_class.append(-1)
+        # Consider entire image as additional object for global context
+        img = self.transforms(img).permute(1, 2, 0)
+        img_shape = img.shape[:2]
+        bboxes.append([0, 0, img_shape[1], img_shape[0]])
+        bbox_class.append(-1)
 
-            if self.mode == 'test':
-                idx1 = random.randint(0, 1)
-                cap_key1 = 'caption1' if idx1 == 0 else 'caption2'
-                caption1 = img_data[cap_key1]
-                caption1 = modify_caption_replace_entities(caption1)
+        if self.mode == 'test':
+            idx1 = random.randint(0, 1)
+            cap_key1 = 'caption1' if idx1 == 0 else 'caption2'
+            caption1 = img_data[cap_key1]
+            caption1 = modify_caption_replace_entities(caption1)
 
-                while True:
-                    idx2 = random.randint(0, 1)
-                    cap_key2 = 'caption1' if idx2 == 0 else 'caption2'
-                    tgt_index = random.randint(0, len(self.data) - 1)
-                    caption2 = self.data[tgt_index][cap_key2]
-                    caption2 = modify_caption_replace_entities(caption2)
-                    if caption1 != caption2:
-                        break
-            else:
-                src_captions = img_data['articles']
-                caption1 = src_captions[random.randint(0, len(src_captions) - 1)]['caption_modified']
+            while True:
+                idx2 = random.randint(0, 1)
+                cap_key2 = 'caption1' if idx2 == 0 else 'caption2'
+                tgt_index = random.randint(0, len(self.data) - 1)
+                caption2 = self.data[tgt_index][cap_key2]
+                caption2 = modify_caption_replace_entities(caption2)
+                if caption1 != caption2:
+                    break
+        else:
+            src_captions = img_data['articles']
+            caption1 = src_captions[random.randint(0, len(src_captions) - 1)]['caption_modified']
 
-                while True:
-                    tgt_index = random.randint(0, len(self.data) - 1)
-                    tgt_captions = self.data[tgt_index]['articles']
-                    caption2 = tgt_captions[random.randint(0, len(tgt_captions) - 1)]['caption_modified']
-                    if caption1 != caption2:
-                        break
+            while True:
+                tgt_index = random.randint(0, len(self.data) - 1)
+                tgt_captions = self.data[tgt_index]['articles']
+                caption2 = tgt_captions[random.randint(0, len(tgt_captions) - 1)]['caption_modified']
+                if caption1 != caption2:
+                    break
 
-            # Compute text-embeddings for Glove and Fasttext embeddings
-            if embed_type != 'use':
-                text_match = self.text_field.preprocess(caption1)
-                text_match = torch.stack([self.text_field.vocab.vectors[self.text_field.vocab.stoi[x]] for x in text_match])
+        # Compute text-embeddings for Glove and Fasttext embeddings
+        if embed_type != 'use':
+            text_match = self.text_field.preprocess(caption1)
+            text_match = torch.stack([self.text_field.vocab.vectors[self.text_field.vocab.stoi[x]] for x in text_match])
 
-                text_diff = self.text_field.preprocess(caption2)
-                text_diff = torch.stack([self.text_field.vocab.vectors[self.text_field.vocab.stoi[x]] for x in text_diff])
-            else:
-                # For USE embeddings, embeddings will be evaluated in trainer script
-                text_match = caption1
-                text_diff = caption2
+            text_diff = self.text_field.preprocess(caption2)
+            text_diff = torch.stack([self.text_field.vocab.vectors[self.text_field.vocab.stoi[x]] for x in text_diff])
+        else:
+            # For USE embeddings, embeddings will be evaluated in trainer script
+            text_match = caption1
+            text_diff = caption2
 
-            return img, text_match, text_diff, len(text_match), len(text_diff), bboxes, bbox_class
-        except:
-            print("Error in ", self.data[index]['img_local_path'])
+        return img, text_match, text_diff, len(text_match), len(text_diff), bboxes, bbox_class
 
     def __len__(self):
         """
