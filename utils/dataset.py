@@ -10,6 +10,7 @@ from utils.custom_transforms.data_aug import *
 
 class CaptionInContext(Dataset):
     """Custom dataset class for Out-of-Context Detection"""
+
     def __init__(self, metadata_file, mode, transforms, text_field=None):
         """
             Initializes the dataset object
@@ -83,7 +84,6 @@ class CaptionInContext(Dataset):
                 caption2 = tgt_captions[random.randint(0, len(tgt_captions) - 1)]['caption_modified']
                 if caption1 != caption2:
                     break
-
         # Compute text-embeddings for Glove and Fasttext embeddings
         if embed_type != 'use':
             text_match = self.text_field.preprocess(caption1)
