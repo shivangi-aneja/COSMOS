@@ -158,17 +158,13 @@ Once training is finished, then to evaluate the model with Match vs No-Match Acc
 **If you find our dataset or paper useful for your research , please include the following citation:**
 
 ```
-@article{aneja2021cosmos,
-  title={{COSMOS}: Catching {O}ut-of-{C}ontext {M}isinformation with {S}elf-{S}upervised {L}earning}, 
-  author={Shivangi Aneja and Chris Bregler and Matthias Nie{\ss}ner},
-  journal={ArXiv},
-  year={2021},
-  volume={abs/2101.06278},
-  eprint={2101.06278},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV}
-}
 
+@inproceedings{aneja2021cosmos,
+    title={{COSMOS}: Catching {O}ut-of-{C}ontext {M}isinformation with {S}elf-{S}upervised {L}earning}, 
+    author={Shivangi Aneja and Chris Bregler and Matthias Nie{\ss}ner},
+    booktitle={ArXiv preprint arXiv:2101.06278},
+    year={2021}
+}
 ```
 
 </br>
