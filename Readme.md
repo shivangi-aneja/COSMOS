@@ -1,168 +1,82 @@
-## [COSMOS: Catching Out-of-Context Misinformation using Self-Supervised Learning](https://shivangi-aneja.github.io/projects/cosmos/)
+## TAFIM: Targeted Adversarial Attacks for Facial Forgery Detection<br><sub>Official PyTorch implementation of ECCV 2022 paper</sub>
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/shivangi-aneja/COSMOS/blob/main/LICENSE.md)
-[![Read the Docs](https://img.shields.io/readthedocs/cosmos-dataset.svg)](https://cosmos-dataset.readthedocs.io/en/latest/tutorials/info.html)
+![Teaser Image](./docs/teaser.jpeg)
 
-COSMOS dataset consists of images and captions scraped from news articles and other websites designed for training and evaluation of out-of-context use of images. We refer readers to the [paper](https://arxiv.org/abs/2101.06278) for more details. To get access to the dataset, please fill out [this form](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). We will provide you script to download the dataset. The official documentation for the project can be found [here](https://cosmos-dataset.readthedocs.io/en/latest/tutorials/info.html)
+**Targeted Adversarial Attacks for Facial Forgery Detection**<br>
+Shivangi Aneja, Lev Markhasin, Matthias Niessner<br>
+https://shivangi-aneja.github.io/projects/tafim <br>
 
+Abstract: *Face manipulation methods can be misused to affect an individual’s privacy or to spread disinformation. To this end, we introduce a novel data-driven approach that produces image-specific perturbations which are embedded in the original images. The key idea is that these protected images prevent face manipulation by causing the manipulation model to produce a predefined manipulation target (uniformly colored output image in our case) instead of the actual manipulation. In addition, we propose to leverage differentiable compression approximation, hence making generated perturbations robust to common image compression. In order to prevent against multiple manipulation methods simultaneously, we further propose a novel attention-based fusion of manipulation-specific perturbations. Compared to traditional adversarial attacks that optimize noise patterns for each image individually, our generalized model only needs a single forward pass, thus running orders of magnitude faster and allowing for easy integration in image processing stacks, even on resource-constrained devices like smartphones.*
 
-<p float="left">
-  <img src="images/teaser.jpeg" width="100%" /> 
-</p>
+### Getting started
 
+#### Pre-requisites
+- Linux
+- NVIDIA GPU + CUDA CuDNN 
+- Python 3.X
 
-</br>
-</br>
+#### Installation
+- Dependencies:  
+It is recommended to install all dependecies using `pip`
+The dependencies for defining the environment are provided in `requirements.txt`.
 
-## Dataset Description
+### Pre-trained Models
+Please download these models, as they will be required for experiments.
 
-### Dataset Statistics
-COSMOS dataset consist of three splits : Training (160 K images), Validation (40 K images) and Test (1700 images). For training, we do not have/use out-of-context annotations. We only use these annotations in the end to evaluate our model. The dataset stats are listed below.
+| Path                                                                                                                                                                                | Description
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :----------
+| [pSp Encoder](https://drive.google.com/file/d/1bMTNWkh5LArlaWSc_wa8VKyq2V42T2z0/view?usp=sharing)                                                                                   | pSp trained with the FFHQ dataset for StyleGAN inversion.
+| StyleClip                                                                                                                                                                           | StyleClip trained with the FFHQ dataset for text-manipulation ([Afro](https://drive.google.com/uc?id=1i5vAqo4z0I-Yon3FNft_YZOq7ClWayQJ), [Angry](https://drive.google.com/uc?id=1g82HEH0jFDrcbCtn3M22gesWKfzWV_ma), [Beyonce](https://drive.google.com/uc?id=1KJTc-h02LXs4zqCyo7pzCp0iWeO6T9fz), [BobCut](https://drive.google.com/uc?id=1IvyqjZzKS-vNdq_OhwapAcwrxgLAY8UF), [BowlCut](https://drive.google.com/uc?id=1xwdxI2YCewSt05dEHgkpmmzoauPjEnnZ), [Curly Hair](https://drive.google.com/uc?id=1xZ7fFB12Ci6rUbUfaHPpo44xUFzpWQ6M), [Mohawk](https://drive.google.com/uc?id=1oMMPc8iQZ7dhyWavZ7VNWLwzf9aX4C09), [Purple Hair](https://drive.google.com/uc?id=14H0CGXWxePrrKIYmZnDD2Ccs65EEww75), [Surprised](https://drive.google.com/uc?id=1F-mPrhO-UeWrV1QYMZck63R43aLtPChI), [Taylor Swift](https://drive.google.com/uc?id=10jHuHsKKJxuf3N0vgQbX_SMEQgFHDrZa), [Trump](https://drive.google.com/uc?id=14v8D0uzy4tOyfBU3ca9T0AzTt3v-dNyh), [zuckerberg](https://drive.google.com/uc?id=1NjDcMUL8G-pO3i_9N6EPpQNXeMc3Ar1r)  )
+| [SimSwap](https://drive.google.com/drive/folders/1ta6CZ_WSXudf7Zp7zw3mrw1QRCTaDD3M?usp=sharinghttps://drive.google.com/drive/folders/1ta6CZ_WSXudf7Zp7zw3mrw1QRCTaDD3M?usp=sharing) | SinSwap trained for face-swapping
+| [SAM]()                                                                                         | SAM model trained for age transformation (used in supp. material).
+| [StyleGAN-NADA](https://drive.google.com/drive/folders/1Z76nD8pXIL2O5f6xV8VjM4DUCmhbzn0l?usp=sharing)                                                                               | StyleGAN-Nada models (used in supp. material).
 
-<p align='center'>Table 1: Dataset stats.</p>
-<table align='center'>
- 
-  <tr>
-    <td><b>Split</b></td>
-    <td><b># Images</b></td>
-    <td><b># Captions</b></td>
-    <td><b>Context Annotation</b></td>
-  </tr>
-  <tr>
-    <td align='center'>Train</td>
-    <td align='center'>161,752</td>
-    <td align='center'>360,749</td>
-    <td align='center'> No </td>
-  </tr>
-  <tr>
-    <td align='center'>Valid</td>
-    <td align='center'>41,006</td>
-    <td align='center'>90,036</td>
-    <td align='center'>No</td>
+### Training models
 
-  </tr>
-  <tr bgcolor="#808080">
-    <td align='center'>Test </td>
-    <td align='center'>1700</td>
-    <td align='center'>3400</td>
-    <td align='center'>Yes</td>
-  </tr>
-</table>
-
-</br>
-
-### Data Format
-
-The COSMOS training, validation and test sets are provided as JSON (JavaScript Object Notation) text files with the following attributes for every data sample stored as a dictionary:
-
-File Structure for train.json and val.json
-```
-{	"img_local_path": <img_path>, 
-	"articles": [
-                 { "caption": <caption1>, 
-                   "article_url": <url1>, 
-                   "caption_modified": <caption_mod1>,
-                   "entity_list": <entity_list1>},
-                   
-                 { "caption": <caption2>,
-                   "article_url": <url2>,
-                   "caption_modified": <caption_mod2>,
-                   "entity_list": <entity_list2>},
-
-                 { "caption": <caption3>,
-                   "article_url": <url3>,
-                   "caption_modified": <caption_mod3>,
-                   "entity_list": <entity_list3>},
-                   
-                  ......
-
-				 ],
-    "maskrcnn_bboxes": [ [x1,y1,x2,y2], [x1,y1,x2,y2], ... ]
-}
-```
-<p align='center'>Table 2: Attributes in Train/Validation files.</p>
-
-| Key   | Description                                                                      |
-| -------- | ------------------------------------------------------------------------------|
-| `img_local_path`    | Source path in dataset directory for the image                    | 
-| `articles`          | List of dict containing metadata for every caption associated with the image                  |
-| `caption`           | Original Caption scraped from the news website                          |
-| `article_url`       | Link to the website image and caption scraped from                           |
-| `caption_modified`  | Modified caption after applying Spacy NER (We used these caption as input to our model during experiments)                           |
-| `entity_list`       | List that consists of mapping between modified named entities in the caption with the corresponding hypernym                          |
-| `maskrcnn_bboxes`          | List of detected bounding boxes corresponding to the image. (x1,y1) refers to start vertex of the rectangle and (x2, y2) refers to end vertex of the rectangle                   |
-
-</br>
-
-Note that for detecting bounding boxes, we used [Detectron2 pretrained model](https://github.com/facebookresearch/detectron2/blob/master/MODEL_ZOO.md) linked [here](https://github.com/facebookresearch/detectron2/blob/master/configs/COCO-Keypoints/keypoint_rcnn_X_101_32x8d_FPN_3x.yaml). We detect upto 10 bounding boxes per image.
-
-
-</br>
-
-File Structure for test.json
-```
-{	
-        "img_local_path": <img_path>,
-	"caption1": <caption1>,
-	"caption1_modified": <caption1_modified>,
-	"caption1_entities": <caption1_entities>,
-	"caption2": <caption2>,
-	"caption2_modified": <caption2_modified>,
-	"caption2_entities": <caption2_entities>,
-	"article_url": <article_url>,
-	"label": "ooc/not-ooc",
-	"maskrcnn_bboxes": [ [x1,y1,x2,y2], [x1,y1,x2,y2], ... ]
-}
-```
-<p align='center'>Table 3: Attributes in Test file.</p>
-
-| Key   | Description                                                                      |
-| -------- | ------------------------------------------------------------------------------|
-| `img_local_path`    | Source path in dataset directory for the image                    | 
-| `caption1`          | First caption associated with the image                 |
-| `caption1_modified`          | Modified Caption1  after applying Spacy NER                 |
-| `caption1_entities`          | List that consists of mapping between modified named entities in the caption1 with the corresponding hypernym                 |
-| `caption2`           | Second caption associated with the image                       |
-| `caption2_modified`           | Modified Caption2  after applying Spacy NER                        |
-| `caption2_entities`          | List that consists of mapping between modified named entities in the caption2 with the corresponding hypernym                 |
-| `article_url`       | Link to the website image and caption scraped from                           |
-| `label`  | Class label whether the two captions are out-of-context with respect to the image (1=Out-of-Context, 0=Not-Out-of-Context )                         |
-| `maskrcnn_bboxes`          | List of detected bounding boxes corresponding to the image. (x1,y1) refers to start vertex of the rectangle and (x2, y2) refers to end vertex of the rectangle                  |
-
-</br>
-
-
-## Getting started
 The code is well-documented and should be easy to follow.
-1. **Source Code:**   `$ git clone` this repo and install the Python dependencies from `requirements.txt`. The source code is implemented in PyTorch so familarity with PyTorch is expected.
+* **Source Code:**   `$ git clone` this repo and install the Python dependencies from `requirements.txt`. The source code is implemented in PyTorch so familarity with PyTorch is expected.
+* **Dataset:** We used FFHQ dataset for our experiments. This is publicly available [here](https://github.com/NVlabs/ffhq-dataset). We divide FFHQ dataset into  : Training (5000 images), Validation (1000 images) and Test (1000 images). We additionally used [Celeb-HQ](https://openreview.net/forum?id=Hk99zCeAb) and [VGGFace2-HQ](https://github.com/NNNNAI/VGGFace2-HQ) dataset for some additional experiments. These datasets can be download from the respective websites. All images are resized to 256 X 256 during transform.
+* **Manipulation Methods:** We examine our method primarily on three popular manipulations: (1) Style-Mixing using [pSp](https://github.com/eladrich/pixel2style2pixel) (2) Face-Swapping using [SimSwap](https://github.com/neuralchen/SimSwap) and (3) Textual Editing using [StyleClip](https://www.google.com/search?q=styleclip).  This code heavily borrows from these repositories for implementation of these manipulations. Please setup and install dependencies for these methods from their original implementation. The scripts to check whether image manipulation model works can be found in `manipulation_tests/` directory. Make sure that these scripts work and you are able to perform inference on these models.                                 
+* **Path Configuration:** Configure the following paths before training. 
+  - Refer to `configs/paths_config.py` to define the necessary data paths and model paths for training and evaluation. 
+  - Refer to `configs/transforms_config.py` for the transforms defined for each dataset/experiment.
+  - Refer to `configs/common_config.py` and change the `architecture_type` and `dataset_type` according to the experiment you wish to perform.
+  - Finally, refer to `configs/data_configs.py` for the source/target data paths for the train and test sets as well as the transforms.
+  - If you wish to experiment with your own dataset, you can simply make the necessary adjustments in 
+      1. `data_configs.py` to define your data paths.
+      2. `transforms_configs.py` to define your own data transforms.
+  - Refer to `configs/attack_configs.py` and change the `net_noise` to change the protection model architecture.
+* **Training:** The main training script to train the protection models for different configurations are directly available in directory `trainer_scripts`. To train the protection models, depending on the manipulation method execute the following commands
+```.bash
+# For self-reconstruction/style-mixing task
+python -m trainer_scripts.train_protection_model_pSp 
 
-2. **Dataset:** Download the dataset by filling out the form [here](https://docs.google.com/forms/d/13kJQ2wlv7sxyXoaM1Ddon6Nq7dUJY_oftl-6xzwTGow). 
-3. **Visualize Dataset:** It is difficult to view the dataset using only JSON file. Navigate to the directory `dataset_visualizer` and follow the instructions to visualize the dataset using a simple Python-Flask based web tool 
-4. **Train and Test For Image-Text Matching Task:** This code is based on [Detectron2](https://github.com/facebookresearch/detectron2) to extract features from objects present in the image. Please setup and install detectron2 first if you wish to use our feature detector for images. The minimal changes to be done to detectron2 source code to extract object features are added to [detectron2_changes](detectron2_changes/) directory. Navigate to detectron2 source code directory and simply copy and replace these files. Consider setting up detectron2 inside this directory, it worked seamlessly for me without doing many changes.                                 
-All the training parameters are configured via `utils/config.py`. Specify paths, hyperparameters, text-embeddings, threshold values, etc in the [config .py](utils/config.py) file. Model names are specifed in the trainer script itself. Configure these parameters according to your need and start training.     
-To train the model, execute the following command:
-`python trainer_scipt.py -m train`      
-Once training is finished, then to evaluate the model with Match vs No-Match Accuracy, execute the following command:
-`python trainer_scipt.py -m eval`
-5. **Test For Out-of-Context Detection Accuracy:**  Once training is over, then to evaluate the model for out-of-Context Detection task, specify model name in `evaluate_ooc.py` and execute:
-```
-    python evaluate_ooc.py
-```
+# For face-swapping task
+python -m trainer_scripts.train_protection_model_simswap
 
+# For textual editing task
+python -m trainer_scripts.train_protection_model_styleclip
+
+# For protection against Jpeg Compression
+python -m trainer_scripts.train_protection_model_pSp_jpeg_randomized
+
+# For combining perturbations from multiple manipulation methods 
+python -m trainer_scripts.train_protection_model_all_attention
+```
 
 
 </br>
 
-## Citation
+### Citation
 
-**If you find our dataset or paper useful for your research , please include the following citation:**
+If you find our dataset or paper useful for your research , please include the following citation:
 
 ```
 
-@inproceedings{aneja2021cosmos,
-    title={{COSMOS}: Catching {O}ut-of-{C}ontext {M}isinformation with {S}elf-{S}upervised {L}earning}, 
-    author={Shivangi Aneja and Chris Bregler and Matthias Nie{\ss}ner},
-    booktitle={ArXiv preprint arXiv:2101.06278},
+@inproceedings{aneja2021tafim,
+    title={{TAFIM}: Targeted {A}dversarial {A}ttacks against {F}acial {I}mage {M}anipulations}, 
+    author={Shivangi Aneja and Lev Markhasin and Matthias Nie{\ss}ner},
+    booktitle={ArXiv preprint arXiv:2112.09151},
     year={2021}
 }
 ```
