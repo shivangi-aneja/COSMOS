@@ -1,4 +1,4 @@
-## [COSMOS: Catching Out-of-Context Misinformation using Self-Supervised Learning](https://shivangi-aneja.github.io/projects/cosmos/)
+## [COSMOS: Catching Out-of-Context Misinformation using Self-Supervised Learning (AAAI 2023)](https://shivangi-aneja.github.io/projects/cosmos/)
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/shivangi-aneja/COSMOS/blob/main/LICENSE.md)
 [![Read the Docs](https://img.shields.io/readthedocs/cosmos-dataset.svg)](https://cosmos-dataset.readthedocs.io/en/latest/tutorials/info.html)
